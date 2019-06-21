@@ -11,11 +11,12 @@
 <script>
 import todo from "@/components/todo.vue";
 import todoform from "@/components/todoform.vue";
+import axios from "axios";
 
 export default {
     data(){
         return{
-todolist:["walk the dog","go for a ride"] 
+            todolist:["walk the dog","go for a ride"] 
         };
     },
     components:{
@@ -25,10 +26,27 @@ todoform
     methods: {
         appDeletetodo(index) {
             this.todolist.splice(index, 1);
+             axios
+             .put("https://chou0120-vue-and-axios.firebaseio.com/data.json", this.todolist)
+             .then(response => {
+                 console.log("your data was deleted status: " + response.status);
+             })
+             .catch(error =>{
+                 console.log(error);
+             });
          },
          addtodo(todo ){
-             this.todolist.push(todo)
-        }
+             this.todolist.push(todo);
+             axios
+             .put("https://chou0120-vue-and-axios.firebaseio.com/data.json", this.todolist)
+             .then(response => {
+                 console.log("your data was saved status: " + response.status);
+             })
+             .catch(error =>{
+                 console.log(error);
+             });
+
+}
     }
 }
 </script>
